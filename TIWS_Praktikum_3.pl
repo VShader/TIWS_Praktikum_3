@@ -31,13 +31,15 @@ swap(X,Y,Rs)  .
 
 %quicksort : erstelle linke liste mit allen die <= als Pivotelement und rechte mit >.
 qsort([],[]) :-!.
-qsort([X],[X]) :-!.
-%qsort([X,Xs],Ys) :- leftlist([X,Xs],X,H1s), rightlist([X,Xs],X,H2s), qsort(H1s,E1s), qsort(H2s,E2s), append(E1s,E2s,Ys).
+qsort([X|Xs],Ys) :- dupList([X|Xs]), !, append([X|Xs],[],Ys).
 qsort([X|Xs],Ys) :- partlist([X|Xs],X,Ls,Rs), qsort(Ls,E1s), qsort(Rs,E2s), append(E1s,E2s,Ys).
 
 partlist([],_,[],[]).
 partlist([X|Xs],Piv,Ls,Rs) :- X =< Piv,! , partlist(Xs,Piv,Hs,Rs), append(Hs,[X],Ls).
 partlist([X|Xs],Piv,Ls,Rs) :- partlist(Xs,Piv,Ls,Hs), append([X],Hs,Rs).
+
+dupList([X|[]]).
+dupList([X|[X|Xs]]) :- dupList([X|Xs]).
 
 %partlist([3,2,4],3,[2,3],[4]).
 %partlist([2,3],2,[2],[3]).
