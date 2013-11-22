@@ -3,11 +3,24 @@
 
 %Aufgabe 1:
 %präorder(Xb,Ys) : Xb ist ein Baum, Ys die Liste der Baumknoten in präorder.
-präorder([X|[Lb,Rb]],Ys) :- päorder(Lb,Hs), append([X],Hs,Ys).
+präorder([],[]).
+präorder([X|[Lb,Rb]],Ys) :- präorder(Lb,H1s), präorder(Rb,H2s), append([X],H1s,H3s), append(H3s,H2s,Ys).
+
+%Q präorder([1, [2,[],[]] ,[]],Z).
+%Q präorder([5, [3,[],[]] ,[7,[],[]]],Z).
+%Q präorder([5, [3,[2,[],[]],[4,[],[]]] ,[7,[6,[],[]],[8,[],[]]]],Z).
+%                 5
+%              3     7
+%             2 4   6  8
 
 %postorder(Xb,Ys)
+postorder([],[]).
+postorder([X|[Lb,Rb]],Ys) :- postorder(Lb,H1s), postorder(Rb,H2s), append(H1s,H2s,H3s), append(H3s,[X],Ys).
 
 %tiefe(Xb,Ys)
+tiefe([],[]).
+tiefe([X|[Lb,Rb]],Ys) :- tiefe(Lb,H1s), tiefe(Rb,H2s), append(H1s,[X],H3s), append(H3s,H2s,Ys).
+
 
 %roots(Xbs,Ys)
 
