@@ -36,11 +36,11 @@ roots([Xb|Ybs],Es) :- root(Xb,X1), roots(Ybs,H1s), append([X1],H1s,Es).
 
 %Aufgabe 2: (Türme von Hanoi)
 %tof(X,Ys).
-tof(N,Ys) :- move(N,a,b,c,Ys).
+tof(N,Ys) :- zug(N,a,b,c,Ys).
 
-%move(N,A,B,C,Ys)
-move(1,A,B,C,[von, A, nach, B]) :-!.
-move(N,A,B,C,Ys) :- Hn is N-1, move(Hn,A,C,B,H1s), move(Hn,C,B,A,H2s), append(H1s,[von, A, nach, B],H3s), append(H3s,H2s,Ys).
+%zug(N,A,B,C,Ys)
+zug(1,A,B,C,[stecke(A,B)]) :-!.
+zug(N,A,B,C,Ys) :- Hn is N-1, zug(Hn,A,C,B,H1s), zug(Hn,C,B,A,H2s), append(H1s,[stecke(A,B)],H3s), append(H3s,H2s,Ys).
 
 
 %Aufgabe 3: (Quicksort)
