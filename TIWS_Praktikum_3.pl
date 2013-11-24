@@ -46,20 +46,15 @@ move(N,A,B,C,Ys) :- Hn is N-1, move(Hn,A,C,B,H1s), move(Hn,C,B,A,H2s), append(H1
 %Aufgabe 3: (Quicksort)
 %quicksort : erstelle linke liste mit allen die <= als Pivotelement und rechte mit >.
 qsort([],[]) :-!.
-qsort([X|Xs],Ys) :- getPivot([X|Xs],Pivot,XPs), partlist(XPs,Pivot,Ls,Rs), qsort(Ls,E1s), qsort(Rs,E2s),  append(E1s,[Pivot],E3s), append(E3s,E2s,Ys).
+qsort([X|Xs],Ys) :- leftlist(Xs,X,Ls), rightlist(Xs,X,Rs), qsort(Ls,E1s), qsort(Rs,E2s),  append(E1s,[X],E3s), append(E3s,E2s,Ys).
 
-partlist([],_,[],[]).
-partlist([X|Xs],Piv,Ls,Rs) :- X =< Piv,! , partlist(Xs,Piv,Hs,Rs), append(Hs,[X],Ls).
-partlist([X|Xs],Piv,Ls,Rs) :- partlist(Xs,Piv,Ls,Hs), append([X],Hs,Rs).
+leftlist([],_,[]) :-!.
+leftlist([X|Xs],Piv,Ys) :- X =< Piv, !, leftlist(Xs,Piv,Hs), append(Hs,[X],Ys).
+leftlist([X|Xs],Piv,Ys) :- leftlist(Xs,Piv,Ys).
 
-getPivot([X|Xs],X,Xs).
-
-%partlist([3,2,4],3,[2,3],[4]).
-%partlist([2,3],2,[2],[3]).
-%leftlist([3,2,4],3,[2,3]).
-%rightlist([3,2,4],3,[4]).
-%leftlist([2,3],2,[2]).
-%rightlist([2,3],2,[3]).
+rightlist([],_,[]) :-!.
+rightlist([X|Xs],Piv,Ys) :- X > Piv, !, rightlist(Xs,Piv,Hs), append([X],Hs,Ys).
+rightlist([X|Xs],Piv,Ys) :- rightlist(Xs,Piv,Ys).
 
 
 
