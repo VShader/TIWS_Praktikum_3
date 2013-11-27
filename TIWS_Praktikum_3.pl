@@ -32,7 +32,18 @@ roots([Xb|Ybs],Es) :- root(Xb,X1), roots(Ybs,H1s), append([X1],H1s,Es).
 
 %Sonderufgabe (außer Konkrruenz)
 %breite(Xb,Ys).
-%breite([X|[Lb,Rb]],Ys) :- roots(Lb,H1s), roots(Rb,H2s), breite(), append(H1s,H2s,Ys).
+%breite([X|[Lb,Rb]],Ys) :- roots([Lb,Rb],H1s), breite(Lb,A), breite(Rb,B), append(H1s,A,H2s), append(H2s,B,Ys).
+breite(Xb,Ys) :- prnWidth([Xb],Ys).
+
+%prnWidth([[],[]],[]) :-!.
+prnWidth([[]|Ybs],[]) :-!.
+%prnWidth([[]|Ybs],Ys) :-!, prnWidth(Ybs,Ys).
+%prnWidth([[X|[Lb,Rb]]|Ybs],Ys) :- roots([[X|[Lb,Rb]]|Ybs],H1s), prnWidth([Lb,Rb|Ybs],H2s), append(H1s,H2s,Ys).
+prnWidth([[X|[Lb,Rb]]|Ybs],Ys) :- roots([[X|[Lb,Rb]]|Ybs],H1s), getchilds([[X|[Lb,Rb]]|Ybs],Nlist), prnWidth(Nlist,H2s), append(H1s,H2s,Ys).
+
+getchilds([],[]).
+getchilds([[X|[Lb,Rb]]|Ybs],Es) :- getchilds(Ybs,Hs), append([Lb,Rb],Hs,Es).
+%Q breite([5, [3,[2,[],[]],[4,[],[]]] ,[7,[6,[],[]],[8,[],[]]]],Z).
 
 
 %Aufgabe 2: (Türme von Hanoi)
