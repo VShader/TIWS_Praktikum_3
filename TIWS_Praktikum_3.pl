@@ -18,12 +18,13 @@ postorder([],[]).
 postorder([X|[Lb,Rb]],Ys) :- postorder(Lb,H1s), postorder(Rb,H2s), append(H1s,H2s,H3s), append(H3s,[X],Ys).
 
 %tiefe(Xb,Ys)
-tiefe([],[]).
-tiefe([X|[Lb,Rb]],Ys) :- tiefe(Lb,H1s), tiefe(Rb,H2s), append(H1s,[X],H3s), append(H3s,H2s,Ys).
+inorder([],[]).
+inorder([X|[Lb,Rb]],Ys) :- inorder(Lb,H1s), inorder(Rb,H2s), append(H1s,[X],H3s), append(H3s,H2s,Ys).
 
 %roots(Xbs,Ys)
 roots([],[]) :-!.
-roots([Xb|Ybs],Es) :- root(Xb,X1), roots(Ybs,H1s), append([X1],H1s,Es).
+roots([Xb|Ybs],Es) :- root(Xb,X1),!, roots(Ybs,H1s), append([X1],H1s,Es).
+roots([Xb|Ybs],Es) :- roots(Ybs,Es).
 
 %Q roots([[1, [2,[],[]] ,[]],[3, [4,[],[]] ,[]],[23, [32,[],[]] ,[]]],Zs).
 %Q roots([[5, [3,[2,[],[]],[4,[],[]]] ,[7,[6,[],[]],[8,[],[]]]],[5, [3,[2,[],[]],[4,[],[]]] ,[7,[6,[],[]],[8,[],[]]]],[5, [3,[2,[],[]],[4,[],[]]] ,[7,[6,[],[]],[8,[],[]]]]],Zs).
@@ -36,12 +37,15 @@ roots([Xb|Ybs],Es) :- root(Xb,X1), roots(Ybs,H1s), append([X1],H1s,Es).
 breite(Xb,Ys) :- prnWidth([Xb],Ys).
 
 %prnWidth([[],[]],[]) :-!.
-prnWidth([[]|Ybs],[]) :-!.
+prnWidth([],[]):-!.
+prnWidth([[]|Ybs],Ys) :-!, prnWidth(Ybs,Ys).
 %prnWidth([[]|Ybs],Ys) :-!, prnWidth(Ybs,Ys).
 %prnWidth([[X|[Lb,Rb]]|Ybs],Ys) :- roots([[X|[Lb,Rb]]|Ybs],H1s), prnWidth([Lb,Rb|Ybs],H2s), append(H1s,H2s,Ys).
 prnWidth([[X|[Lb,Rb]]|Ybs],Ys) :- roots([[X|[Lb,Rb]]|Ybs],H1s), getchilds([[X|[Lb,Rb]]|Ybs],Nlist), prnWidth(Nlist,H2s), append(H1s,H2s,Ys).
 
-getchilds([],[]).
+getchilds([],[]):-!.
+getchilds([[]],[]):-!.
+getchilds([[]|Ybs],Es) :- getchilds(Ybs,Es),!.
 getchilds([[X|[Lb,Rb]]|Ybs],Es) :- getchilds(Ybs,Hs), append([Lb,Rb],Hs,Es).
 %Q breite([5, [3,[2,[],[]],[4,[],[]]] ,[7,[6,[],[]],[8,[],[]]]],Z).
 
